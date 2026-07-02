@@ -4,6 +4,7 @@
  */
 
 const $ = (id) => document.getElementById(id);
+const RESULTS_KEY = 'lastScan';
 let lastResults = [];
 
 function setStatus(msg, isError) {
@@ -156,6 +157,15 @@ async function scan() {
         isError = true;
       }
       setStatus(parts.join(' '), isError);
+
+      // Persist so results survive closing the popup.
+      chrome.storage.local.set({
+        [RESULTS_KEY]: {
+          results: lastResults,
+          summary: parts[0],
+          scannedAt: Date.now(),
+        },
+      });
     });
   });
 }
@@ -176,9 +186,29 @@ function clearResults() {
   lastResults = [];
   $('results').textContent = '';
   setStatus('');
+  chrome.storage.local.remove(RESULTS_KEY);
+}
+
+// Restore the previous scan (if any) when the popup opens.
+function loadSavedResults() {
+  chrome.storage.local.get(RESULTS_KEY, (data) => {
+    const saved = data[RESULTS_KEY];
+    if (!saved || !Array.isArray(saved.results) || !saved.results.length) return;
+
+    lastResults = saved.results;
+    renderResults(lastResults);
+
+    const when = saved.scannedAt
+      ? new Date(saved.scannedAt).toLocaleString(undefined, {
+          month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
+        })
+      : 'earlier';
+    setStatus(`Showing saved results from ${when}. Click "Scan Reddit" to refresh.`);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  loadSavedResults();
   $('scan').addEventListener('click', scan);
   $('clear').addEventListener('click', clearResults);
   $('export').addEventListener('click', exportJson);
