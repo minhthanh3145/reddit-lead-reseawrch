@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reddit Lead Research — Setup</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="options-page">
+    <main class="container">
+      <h1>Reddit Lead Research — Setup</h1>
+      <p class="guardrail">
+        This tool only helps you discover public Reddit conversations. Review
+        threads manually and follow each subreddit's rules. It never comments,
+        messages, votes, or logs in on your behalf.
+      </p>
+
+      <section class="card">
+        <h2>Your niche &amp; product</h2>
+
+        <label for="niche">Niche / market</label>
+        <input id="niche" type="text" placeholder="e.g. Founders who don't know what to build" />
+
+        <label for="product">Product / offer</label>
+        <textarea id="product" rows="3" placeholder="What you're promoting"></textarea>
+
+        <label for="idealCustomer">Ideal customer</label>
+        <textarea id="idealCustomer" rows="2" placeholder="Who they are"></textarea>
+      </section>
+
+      <section class="card">
+        <div class="row-between">
+          <h2>Keywords &amp; signals</h2>
+          <button id="generate" class="btn secondary" type="button">Generate starter keywords</button>
+        </div>
+        <p class="hint">One entry per line. Everything is editable — the starter values are just suggestions.</p>
+
+        <label for="subreddits">Subreddits (one per line, without r/)</label>
+        <textarea id="subreddits" rows="6"></textarea>
+
+        <label for="keywords">Main keywords</label>
+        <textarea id="keywords" rows="6"></textarea>
+
+        <label for="problemPhrases">Problem phrases</label>
+        <textarea id="problemPhrases" rows="6"></textarea>
+
+        <label for="buyingIntentPhrases">Buying-intent phrases</label>
+        <textarea id="buyingIntentPhrases" rows="5"></textarea>
+
+        <label for="competitors">Competitor / alternative terms</label>
+        <textarea id="competitors" rows="4"></textarea>
+
+        <label for="negativeKeywords">Negative keywords / topics to skip</label>
+        <textarea id="negativeKeywords" rows="4"></textarea>
+      </section>
+
+      <section class="card">
+        <h2>Scan settings</h2>
+
+        <label for="freshness">Freshness window</label>
+        <select id="freshness">
+          <option value="day">Last 24 hours</option>
+          <option value="week">Last 7 days</option>
+          <option value="month">Last 30 days</option>
+          <option value="year">Last 12 months</option>
+        </select>
+
+        <label for="intentPriority">Prioritize</label>
+        <select id="intentPriority">
+          <option value="complaints">People complaining about a workflow</option>
+          <option value="recommendations">People asking for recommendations</option>
+          <option value="competitors">People mentioning competitors</option>
+        </select>
+
+        <label for="maxPosts">Max posts per subreddit (1–100)</label>
+        <input id="maxPosts" type="number" min="1" max="100" />
+      </section>
+
+      <section class="card">
+        <h2>AI re-ranking (optional)</h2>
+        <p class="hint">
+          A second pass sends your top keyword matches to an LLM for a semantic
+          relevance score, intent label, and a one-line reason. Bring your own
+          key — it is stored only in this browser (<code>chrome.storage.local</code>)
+          and sent directly to the provider you choose. Leave the provider on
+          “None” to keep the extension purely keyword-based.
+        </p>
+
+        <label for="llmProvider">Provider</label>
+        <select id="llmProvider">
+          <option value="none">None (keyword matching only)</option>
+          <option value="anthropic">Anthropic (Claude)</option>
+          <option value="openai">OpenAI</option>
+        </select>
+
+        <label for="llmApiKey">API key</label>
+        <input id="llmApiKey" type="password" autocomplete="off" placeholder="Paste your own key" />
+
+        <label for="llmModel">Model</label>
+        <input id="llmModel" type="text" placeholder="Leave blank for the provider default" />
+        <p class="hint" id="llmModelHint"></p>
+
+        <label for="llmTopN">Candidates to re-rank per scan (1–25)</label>
+        <input id="llmTopN" type="number" min="1" max="25" />
+      </section>
+
+      <div class="row-between">
+        <button id="save" class="btn primary" type="button">Save settings</button>
+        <button id="reset" class="btn secondary" type="button">Reset to starter defaults</button>
+      </div>
+      <p id="status" class="status" role="status"></p>
+    </main>
+
+    <script src="defaults.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

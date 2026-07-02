@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Reddit Lead Research</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="popup-page">
+    <header class="popup-header">
+      <h1>Reddit Lead Research</h1>
+      <a id="openOptions" href="#" class="link">Settings</a>
+    </header>
+
+    <p class="guardrail small">
+      Discovers public Reddit posts for manual review only. Follow each
+      subreddit's rules. No auto-comment, DM, or voting.
+    </p>
+
+    <div class="toolbar">
+      <button id="scan" class="btn primary">Scan Reddit</button>
+      <button id="clear" class="btn secondary">Clear</button>
+      <button id="export" class="btn secondary">Export JSON</button>
+    </div>
+
+    <p id="status" class="status" role="status"></p>
+    <div id="results" class="results"></div>
+
+    <script src="defaults.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
